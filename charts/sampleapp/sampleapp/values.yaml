@@ -1,0 +1,30 @@
+# Default values for sampleapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image:
+  repository: registry.mtnirancell.ir/devops/apitask
+  tag: v0.0.5
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  hosts:
+    name: apitask.dtl1.mtnirancell.ir
+
+application:
+  environments:
+    DJANGO_DB_USER: 'root'
+    DJANGO_DB_HOST: '10.130.17.146'
+    DJANGO_DB_PORT: 30357
+    DJANGO_DB_NAME: 'GUTS_TASK'
+    DJANGO_DB_PASS: 'mysql'
+    MYSQL_ROOT_PASSWORD: 'mysql'

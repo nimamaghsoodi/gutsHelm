@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: apitask
+  labels:
+    app.kubernetes.io/name: {{include "apitask.name" . | quote}}
+spec:
+  rules:
+    - host: {{ .Values.ingress.hosts.name }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: apitask-service
+              servicePort: http

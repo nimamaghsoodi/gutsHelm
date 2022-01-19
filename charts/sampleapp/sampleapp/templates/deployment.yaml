@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apitask
+  labels:
+    app.kubernetes.io/name: {{include "apitask.name" . | quote}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{include "apitask.name" . | quote}}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{include "apitask.name" . | quote}}
+    spec:
+      containers:
+      - image: {{  printf "%s:%s" .Values.image.repository .Values.image.tag }}
+        imagePullPolicy: Always
+        name: apitask
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: apiport
+          protocol: TCP
+        env:
+          {{- range $key, $value := .Values.application.environments }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
